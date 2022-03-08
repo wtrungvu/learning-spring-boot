@@ -9,12 +9,12 @@ public interface UserDao {
 
     List<User> getAllUsers();
 
-    User getUser(UUID id);
+    User getUser(UUID userUid);
 
     int updateUser(User user);
 
-    int removeUser(UUID id);
+    int removeUser(UUID userUid);
 
-    int insertUser(User user);
+    int insertUser(UUID userUid, User user);
 
 }

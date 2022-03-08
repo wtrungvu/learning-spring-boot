@@ -2,10 +2,7 @@ package com.wtrungvu.learningspringboot.dao;
 
 import com.wtrungvu.learningspringboot.model.User;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class FakeDataDao implements UserDao {
 
@@ -19,26 +16,29 @@ public class FakeDataDao implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        return null;
+        return new ArrayList<>(database.values());
     }
 
     @Override
-    public User getUser(UUID id) {
-        return null;
+    public User getUser(UUID userUid) {
+        return database.get(userUid);
     }
 
     @Override
     public int updateUser(User user) {
-        return 0;
+        database.put(user.getUserUid(), user);
+        return 1;
     }
 
     @Override
-    public int removeUser(UUID id) {
-        return 0;
+    public int removeUser(UUID userUid) {
+        database.remove(userUid);
+        return 1;
     }
 
     @Override
-    public int insertUser(User user) {
-        return 0;
+    public int insertUser(UUID userUid, User user) {
+        database.put(userUid, user);
+        return 1;
     }
 }
