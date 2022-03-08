@@ -65,14 +65,50 @@ class FakeDataDaoTest {
     }
 
     @Test
-    void updateUser() {
+    void shouldUpdateUser() {
+        UUID joeUserUid = fakeDataDao.selectAllUsers().get(0).getUserUid();
+        User newJoeUser = new User(
+                joeUserUid,
+                "Anna",
+                "Montana",
+                User.Gender.MALE,
+                25,
+                "Anna.Montana@gmail.com"
+        );
+        fakeDataDao.updateUser(newJoeUser);
+        Optional<User> user = fakeDataDao.selectUserByUserUid(joeUserUid);
+        assertThat(user.isPresent()).isTrue();
+
+        assertThat(fakeDataDao.selectAllUsers()).hasSize(1);
+        assertThat(user.get()).usingRecursiveComparison().isEqualTo(newJoeUser);
     }
 
     @Test
-    void deleteUserByUserUid() {
+    void shouldDeleteUserByUserUid() {
+        UUID joeUserUid = fakeDataDao.selectAllUsers().get(0).getUserUid();
+
+        fakeDataDao.deleteUserByUserUid(joeUserUid);
+
+        assertThat(fakeDataDao.selectUserByUserUid(joeUserUid).isPresent()).isFalse();
+        assertThat(fakeDataDao.selectAllUsers()).hasSize(0);
     }
 
     @Test
-    void insertUser() {
+    void shouldInsertUser() {
+        UUID userUid = UUID.randomUUID();
+        User user = new User(
+                userUid,
+                "Anna",
+                "Montana",
+                User.Gender.MALE,
+                25,
+                "Anna.Montana@gmail.com"
+        );
+
+        fakeDataDao.insertUser(userUid, user);
+
+        List<User> users = fakeDataDao.selectAllUsers();
+        assertThat(users).hasSize(2);
+        assertThat(fakeDataDao.selectUserByUserUid(userUid).get()).usingRecursiveComparison().isEqualTo(user);
     }
 }
