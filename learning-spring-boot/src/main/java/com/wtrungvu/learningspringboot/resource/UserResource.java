@@ -47,6 +47,16 @@ public class UserResource {
         return ResponseEntity.badRequest().build();
     }
 
+    @RequestMapping(method = RequestMethod.PUT,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Integer> updateUser(@RequestBody User user) {
+        int result = userService.updateUser(user);
+        if (result == 1) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
     class ErrorMessage {
         private String errorMessage;
 
