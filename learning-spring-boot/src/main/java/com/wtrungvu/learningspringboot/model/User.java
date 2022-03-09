@@ -71,7 +71,7 @@ public class User {
 
     public enum Gender {
         MALE,
-        FERMALE
+        FEMALE
     }
 
 }

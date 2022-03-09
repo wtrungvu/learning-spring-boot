@@ -43,7 +43,7 @@ class UserServiceTest {
                 annaId,
                 "Anna",
                 "Montana",
-                User.Gender.FERMALE,
+                User.Gender.FEMALE,
                 30,
                 "Anna.Montana123456@gmail.com"
         );
@@ -54,7 +54,7 @@ class UserServiceTest {
 
         given(fakeDataDao.selectAllUsers()).willReturn(users);
 
-        List<User> allUsers = userService.getAllUsers();
+        List<User> allUsers = userService.getAllUsers(Optional.empty());
 
         assertThat(allUsers).hasSize(1);
 
@@ -71,7 +71,7 @@ class UserServiceTest {
                 annaUid,
                 "Anna",
                 "Montana",
-                User.Gender.FERMALE,
+                User.Gender.FEMALE,
                 30,
                 "Anna.Montana123456@gmail.com"
         );
@@ -95,7 +95,7 @@ class UserServiceTest {
                 annaUid,
                 "Anna",
                 "Montana",
-                User.Gender.FERMALE,
+                User.Gender.FEMALE,
                 30,
                 "Anna.Montana123456@gmail.com"
         );
@@ -124,7 +124,7 @@ class UserServiceTest {
                 annaUid,
                 "Anna",
                 "Montana",
-                User.Gender.FERMALE,
+                User.Gender.FEMALE,
                 30,
                 "Anna.Montana123456@gmail.com"
         );
@@ -146,7 +146,7 @@ class UserServiceTest {
                 null,
                 "Anna",
                 "Montana",
-                User.Gender.FERMALE,
+                User.Gender.FEMALE,
                 30,
                 "Anna.Montana123456@gmail.com"
         );
@@ -171,7 +171,7 @@ class UserServiceTest {
         assertThat(user.getUserUid()).isInstanceOf(UUID.class);
         assertThat(user.getFirstName()).isEqualTo("Anna");
         assertThat(user.getLastName()).isEqualTo("Montana");
-        assertThat(user.getGender()).isEqualTo(User.Gender.FERMALE);
+        assertThat(user.getGender()).isEqualTo(User.Gender.FEMALE);
         assertThat(user.getAge()).isEqualTo(30);
         assertThat(user.getEmail()).isEqualTo("Anna.Montana123456@gmail.com");
     }
