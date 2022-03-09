@@ -15,6 +15,8 @@
 	<description>Learning Spring Boot</description>
 	<properties>
 		<java.version>1.8</java.version>
+		<paypal.rest.easy.version>2.3.3-RELEASE</paypal.rest.easy.version>
+		<rest.easy.client.version>3.1.4.Final</rest.easy.client.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -42,8 +44,15 @@
 		<dependency>
 			<groupId>com.paypal.springboot</groupId>
 			<artifactId>resteasy-spring-boot-starter</artifactId>
-			<version>2.3.3-RELEASE</version>
+			<version>${paypal.rest.easy.version}</version>
 			<scope>runtime</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-client -->
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-client</artifactId>
+			<version>${rest.easy.client.version}</version>
 		</dependency>
 
 	</dependencies>
