@@ -39,6 +39,15 @@ public class UserResource {
                 });
     }
 
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Integer> insertNewUser(User user) {
+        int result = userService.insertUser(user);
+        if (result == 1) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
     class ErrorMessage {
         private String errorMessage;
 
