@@ -2,6 +2,7 @@ package com.wtrungvu.learningspringboot.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class User {
@@ -52,6 +53,14 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
+    public int getDateOfBirth() {
+        return LocalDate.now().minusYears(age).getYear();
     }
 
     public static User newUser(UUID userUid, User user) {
