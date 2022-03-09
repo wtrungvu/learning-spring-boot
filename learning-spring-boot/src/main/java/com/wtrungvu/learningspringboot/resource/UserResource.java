@@ -57,6 +57,16 @@ public class UserResource {
         return ResponseEntity.badRequest().build();
     }
 
+    @RequestMapping(method = RequestMethod.DELETE,
+            path = "/{userUid}")
+    public ResponseEntity<Integer> deleteUser(@PathVariable("userUid") UUID userUid) {
+        int result = userService.removeUser(userUid);
+        if (result == 1) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
     class ErrorMessage {
         private String errorMessage;
 
