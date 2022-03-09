@@ -14,6 +14,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -116,14 +118,57 @@ class UserServiceTest {
 
     @Test
     void shouldRemoveUser() {
+        UUID annaUid = UUID.randomUUID();
+
+        User annaUser = new User(
+                annaUid,
+                "Anna",
+                "Montana",
+                User.Gender.FERMALE,
+                30,
+                "Anna.Montana123456@gmail.com"
+        );
+
+        given(fakeDataDao.selectUserByUserUid(annaUid)).willReturn(Optional.of(annaUser));
+        given(fakeDataDao.deleteUserByUserUid(annaUid)).willReturn(1);
+
+        int removeUser = userService.removeUser(annaUid);
+
+        verify(fakeDataDao).selectUserByUserUid(annaUid);
+        verify(fakeDataDao).deleteUserByUserUid(annaUid);
+
+        assertThat(removeUser).isEqualTo(1);
     }
 
     @Test
     void shouldInsertUser() {
+        User annaUser = new User(
+                null,
+                "Anna",
+                "Montana",
+                User.Gender.FERMALE,
+                30,
+                "Anna.Montana123456@gmail.com"
+        );
+
+        given(fakeDataDao.insertUser(any(UUID.class), eq(annaUser))).willReturn(1);
+
+        ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
+
+        int insertResult = userService.insertUser(annaUser);
+
+        verify(fakeDataDao).insertUser(any(UUID.class), captor.capture());
+
+        User user = captor.getValue();
+
+        assertUserFields(user);
+
+        assertThat(insertResult).isEqualTo(1);
     }
 
     private void assertUserFields(User user) {
         assertThat(user.getUserUid()).isNotNull();
+        assertThat(user.getUserUid()).isInstanceOf(UUID.class);
         assertThat(user.getFirstName()).isEqualTo("Anna");
         assertThat(user.getLastName()).isEqualTo("Montana");
         assertThat(user.getGender()).isEqualTo(User.Gender.FERMALE);
