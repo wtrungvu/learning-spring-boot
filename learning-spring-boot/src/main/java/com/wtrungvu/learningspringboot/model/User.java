@@ -29,6 +29,7 @@ public class User {
         this.email = email;
     }
 
+    @JsonProperty("id")
     public UUID getUserUid() {
         return userUid;
     }
