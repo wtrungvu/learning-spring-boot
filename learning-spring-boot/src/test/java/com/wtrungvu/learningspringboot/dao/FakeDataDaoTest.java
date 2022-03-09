@@ -1,8 +1,8 @@
 package com.wtrungvu.learningspringboot.dao;
 
 import com.wtrungvu.learningspringboot.model.User;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,17 +10,17 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class FakeDataDaoTest {
+public class FakeDataDaoTest {
 
     private FakeDataDao fakeDataDao;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         fakeDataDao = new FakeDataDao();
     }
 
     @Test
-    void shouldSelectAllUsers() {
+    public void shouldSelectAllUsers() {
         List<User> users = fakeDataDao.selectAllUsers();
         assertThat(users).hasSize(1);
 
@@ -35,7 +35,7 @@ class FakeDataDaoTest {
     }
 
     @Test
-    void shouldSelectUserByUserUid() {
+    public void shouldSelectUserByUserUid() {
         UUID annaUserUid = UUID.randomUUID();
         User annaUser = new User(
                 annaUserUid,
@@ -52,20 +52,20 @@ class FakeDataDaoTest {
         assertThat(annaUserOptional.isPresent()).isTrue();
 
         /* isEqualToComparingFieldByField() is deprecated */
-//        assertThat(annaUserOptional.get()).isEqualToComparingFieldByField(annaUser);
+        assertThat(annaUserOptional.get()).isEqualToComparingFieldByField(annaUser);
 
         /* Use the recursive comparison by calling usingRecursiveComparison() */
-        assertThat(annaUserOptional.get()).usingRecursiveComparison().isEqualTo(annaUser);
+//        assertThat(annaUserOptional.get()).usingRecursiveComparison().isEqualTo(annaUser);
     }
 
     @Test
-    void shouldNotSelectUserByRandomUserUid() {
+    public void shouldNotSelectUserByRandomUserUid() {
         Optional<User> user = fakeDataDao.selectUserByUserUid(UUID.randomUUID());
         assertThat(user.isPresent()).isFalse();
     }
 
     @Test
-    void shouldUpdateUser() {
+    public void shouldUpdateUser() {
         UUID joeUserUid = fakeDataDao.selectAllUsers().get(0).getUserUid();
         User newJoeUser = new User(
                 joeUserUid,
@@ -80,11 +80,11 @@ class FakeDataDaoTest {
         assertThat(user.isPresent()).isTrue();
 
         assertThat(fakeDataDao.selectAllUsers()).hasSize(1);
-        assertThat(user.get()).usingRecursiveComparison().isEqualTo(newJoeUser);
+        assertThat(user.get()).isEqualToComparingFieldByField(newJoeUser);
     }
 
     @Test
-    void shouldDeleteUserByUserUid() {
+    public void shouldDeleteUserByUserUid() {
         UUID joeUserUid = fakeDataDao.selectAllUsers().get(0).getUserUid();
 
         fakeDataDao.deleteUserByUserUid(joeUserUid);
@@ -94,7 +94,7 @@ class FakeDataDaoTest {
     }
 
     @Test
-    void shouldInsertUser() {
+    public void shouldInsertUser() {
         UUID userUid = UUID.randomUUID();
         User user = new User(
                 userUid,
@@ -109,6 +109,6 @@ class FakeDataDaoTest {
 
         List<User> users = fakeDataDao.selectAllUsers();
         assertThat(users).hasSize(2);
-        assertThat(fakeDataDao.selectUserByUserUid(userUid).get()).usingRecursiveComparison().isEqualTo(user);
+        assertThat(fakeDataDao.selectUserByUserUid(userUid).get()).isEqualToComparingFieldByField(user);
     }
 }

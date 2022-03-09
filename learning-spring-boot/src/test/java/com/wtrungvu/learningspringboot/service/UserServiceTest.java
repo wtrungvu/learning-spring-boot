@@ -1,10 +1,10 @@
 package com.wtrungvu.learningspringboot.service;
 
-import com.google.common.collect.ImmutableList;
 import com.wtrungvu.learningspringboot.dao.FakeDataDao;
 import com.wtrungvu.learningspringboot.model.User;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import jersey.repackaged.com.google.common.collect.ImmutableList;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -13,30 +13,31 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 
-class UserServiceTest {
+public class UserServiceTest {
 
     @Mock
     private FakeDataDao fakeDataDao;
 
     private UserService userService;
 
-    @BeforeEach
-    void setUp() {
+    @Before
+    public void setUp() {
         /* 'initMocks(java.lang.Object)' is deprecated  */
-//        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.initMocks(this);
         /* Replace method call with openMocks */
-        MockitoAnnotations.openMocks(this);
+//        MockitoAnnotations.openMocks(this);
         userService = new UserService(fakeDataDao);
     }
 
     @Test
-    void shouldGetAllUsers() {
+    public void shouldGetAllUsers() {
         UUID annaId = UUID.randomUUID();
 
         User annaUser = new User(
@@ -64,7 +65,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldGetUserByUserGender() {
+    public void shouldGetUserByUserGender() {
         UUID annaId = UUID.randomUUID();
         User annaUser = new User(
                 annaId,
@@ -107,7 +108,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldGetUser() {
+    public void shouldGetUser() {
         UUID annaUid = UUID.randomUUID();
 
         User annaUser = new User(
@@ -131,7 +132,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldUpdateUser() {
+    public void shouldUpdateUser() {
         UUID annaUid = UUID.randomUUID();
 
         User annaUser = new User(
@@ -160,7 +161,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldRemoveUser() {
+    public void shouldRemoveUser() {
         UUID annaUid = UUID.randomUUID();
 
         User annaUser = new User(
@@ -184,7 +185,7 @@ class UserServiceTest {
     }
 
     @Test
-    void shouldInsertUser() {
+    public void shouldInsertUser() {
         User annaUser = new User(
                 null,
                 "Anna",
