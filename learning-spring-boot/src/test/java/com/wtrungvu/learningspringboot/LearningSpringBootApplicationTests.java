@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,13 +20,11 @@ public class LearningSpringBootApplicationTests {
 	private UserResourceV1 userResourceV1;
 
 	@Test
-	public void itShouldFetchAllUsers() {
-		List<User> users = userResourceV1.fetchUsers(null);
-
-		assertThat(users).hasSize(1);
-
+	public void shouldInsertUser() {
+		//Given
+		UUID johnUserUid = UUID.randomUUID();
 		User johnUser = new User(
-				null,
+				johnUserUid,
 				"John",
 				"Cena",
 				User.Gender.MALE,
@@ -35,11 +32,11 @@ public class LearningSpringBootApplicationTests {
 				"john.cena123456@gmail.com"
 		);
 
-		assertThat(users.get(0)).isEqualToIgnoringGivenFields(johnUser, "userUid");
+		//When
+		userResourceV1.insertNewUser(johnUser);
 
-		assertThat(users.get(0).getUserUid()).isInstanceOf(UUID.class);
-
-		assertThat(users.get(0).getUserUid()).isNotNull();
+		//Then
+		User user = userResourceV1.fetchUser(johnUserUid);
+		assertThat(user).isEqualToComparingFieldByField(johnUser);
 	}
-
 }
