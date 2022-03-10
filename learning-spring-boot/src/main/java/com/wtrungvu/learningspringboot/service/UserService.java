@@ -5,6 +5,7 @@ import com.wtrungvu.learningspringboot.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.ws.rs.NotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -47,18 +48,14 @@ public class UserService {
             System.out.println("User updated");
             return userDao.updateUser(user);
         }
-        System.out.println("User not found");
-        return -1;
+        throw new NotFoundException("User " + user.getUserUid() + " not found");
     }
 
-    public int removeUser(UUID userUid) {
-        Optional<User> optionalUser = getUser(userUid);
-        if (optionalUser.isPresent()) {
-            System.out.println("User deleted");
-            return userDao.deleteUserByUserUid(userUid);
-        }
-        System.out.println("User not found");
-        return -1;
+    public int removeUser(UUID uid) {
+        UUID userUid = getUser(uid)
+                .map(User::getUserUid)
+                .orElseThrow(() -> new NotFoundException("User " + uid + " not found"));
+        return userDao.deleteUserByUserUid(userUid);
     }
 
     public int insertUser(User user) {
