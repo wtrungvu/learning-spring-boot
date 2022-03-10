@@ -1,4 +1,4 @@
-package com.wtrungvu.learningspringboot;
+package com.wtrungvu.learningspringboot.it;
 
 import com.wtrungvu.learningspringboot.clientproxy.UserResourceV1;
 import com.wtrungvu.learningspringboot.model.User;
@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-public class LearningSpringBootApplicationTests {
+public class UserIT {
 
 	@Autowired
 	private UserResourceV1 userResourceV1;
