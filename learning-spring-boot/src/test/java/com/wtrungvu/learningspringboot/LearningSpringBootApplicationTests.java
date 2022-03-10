@@ -70,4 +70,35 @@ public class LearningSpringBootApplicationTests {
 				.isInstanceOf(NotFoundException.class);
 
 	}
+
+	@Test
+	public void shouldUpdateUser() {
+		//Given
+		UUID userUid = UUID.randomUUID();
+		User user = new User(
+				userUid,
+				"John",
+				"Cena",
+				User.Gender.MALE,
+				25,
+				"john.cena123456@gmail.com"
+		);
+
+		//When
+		userResourceV1.insertNewUser(user);
+
+		User updatedUser = new User(
+				userUid,
+				"Alexandra",
+				"Pochentino",
+				User.Gender.FEMALE,
+				36,
+				"Alexandra.Pochentino@gmail.com"
+		);
+		userResourceV1.updateUser(updatedUser);
+
+		//Then
+		user = userResourceV1.fetchUser(userUid);
+		assertThat(user).isEqualToComparingFieldByField(updatedUser);
+	}
 }
