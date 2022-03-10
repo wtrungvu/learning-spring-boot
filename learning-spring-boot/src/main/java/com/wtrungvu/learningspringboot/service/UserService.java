@@ -10,6 +10,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.requireNonNull;
+
 @Service
 public class UserService {
 
@@ -61,7 +63,16 @@ public class UserService {
 
     public int insertUser(User user) {
         UUID userUid = user.getUserUid() == null ? UUID.randomUUID() : user.getUserUid();
+        validateUser(user);
         System.out.println("User inserted");
         return userDao.insertUser(userUid, User.newUser(userUid, user));
+    }
+
+    private void validateUser(User user) {
+        requireNonNull(user.getFirstName(), "first name is required");
+        requireNonNull(user.getLastName(), "last name is required");
+        requireNonNull(user.getAge(), "age is required");
+        requireNonNull(user.getEmail(), "email is required");
+        requireNonNull(user.getGender(), "gender is required");
     }
 }
