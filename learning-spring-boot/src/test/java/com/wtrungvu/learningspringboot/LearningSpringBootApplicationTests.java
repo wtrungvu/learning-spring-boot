@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.ws.rs.NotFoundException;
+import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -100,5 +101,41 @@ public class LearningSpringBootApplicationTests {
 		//Then
 		user = userResourceV1.fetchUser(userUid);
 		assertThat(user).isEqualToComparingFieldByField(updatedUser);
+	}
+
+	@Test
+	public void shouldFetchUsersByGender() {
+		//Given
+		UUID userUid = UUID.randomUUID();
+		User user = new User(
+				userUid,
+				"John",
+				"Cena",
+				User.Gender.MALE,
+				25,
+				"john.cena123456@gmail.com"
+		);
+
+		//When
+		userResourceV1.insertNewUser(user);
+
+		List<User> fermales = userResourceV1.fetchUsers(User.Gender.FEMALE.name());
+
+		assertThat(fermales).extracting("userUid").doesNotContain(user.getUserUid());
+		assertThat(fermales).extracting("firstName").doesNotContain(user.getFirstName());
+		assertThat(fermales).extracting("lastName").doesNotContain(user.getLastName());
+		assertThat(fermales).extracting("gender").doesNotContain(user.getGender());
+		assertThat(fermales).extracting("age").doesNotContain(user.getAge());
+		assertThat(fermales).extracting("email").doesNotContain(user.getEmail());
+
+		List<User> males = userResourceV1.fetchUsers(User.Gender.MALE.name());
+
+		assertThat(males).extracting("userUid").contains(user.getUserUid());
+		assertThat(males).extracting("firstName").contains(user.getFirstName());
+		assertThat(males).extracting("lastName").contains(user.getLastName());
+		assertThat(males).extracting("gender").contains(user.getGender());
+		assertThat(males).extracting("age").contains(user.getAge());
+		assertThat(males).extracting("email").contains(user.getEmail());
+
 	}
 }
