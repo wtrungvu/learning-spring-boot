@@ -5,8 +5,10 @@ import com.wtrungvu.learningspringboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.UUID;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
+@Validated
 @Component
 @Path("api/v1/users")
 public class UserResourceResteasy {
@@ -48,7 +51,7 @@ public class UserResourceResteasy {
     @POST
     @Consumes(MediaType.APPLICATION_JSON_VALUE)
     @Produces(APPLICATION_JSON)
-    public Response insertNewUser(@RequestBody User user) {
+    public Response insertNewUser(@Valid User user) {
         int result = userService.insertUser(user);
         return getIntegerResponse(result);
     }
